@@ -1,10 +1,10 @@
-# Microsoft-Graph-ASPNET-Excel-Donations
+# Microsoft Graph Excel ASP.NET donations sample
 
 This sample shows how to read and write into an Excel document stored in your OneDrive for Business account by using the Excel REST APIs.
 
 ## Prerequisites
 
-To use the Microsoft Graph Excel REST API ASP.NET Donations sample, you need the following:
+To use the Microsoft Graph Excel ASP.NET donations sample, you need the following:
 * Visual Studio 2015 installed and working on your development computer. 
 
      > Note: This sample is written using Visual Studio 2015. If you're using Visual Studio 2013, make sure to change the compiler language version to 5 in the Web.config file:  **compilerOptions="/langversion:5**
