@@ -1,0 +1,53 @@
+﻿<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+See LICENSE in the project root for license information. -->
+
+
+@model IEnumerable<Microsoft_Graph_ASPNET_Excel_Donations.Models.Donation>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-heading">Donations</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Organization)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Month)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Organization)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    <span>@Html.ActionLink("Refresh", "Index")</span><span> | </span><span></span>@Html.ActionLink("Add new", "Create")<span></span>
+</p>

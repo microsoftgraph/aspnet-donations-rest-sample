@@ -1,0 +1,62 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.navbar {
+    background-color: #41AEBD;
+    color: white;
+    font-size: 15px;
+    font-family: Corbel;
+}
+
+.jumbotron{
+    background-color: white;
+    color: black;
+    font-size: 15px;
+    font-family: Corbel;
+}
+
+.jumbotron h1 {
+    font-size: 28px;
+    margin: 10px;
+}
+
+.woodgrove-button {
+    background: white;
+    border-color: #41AEBD;
+    color: #767676;
+    width: 15%;
+    margin: 30px;
+}
+
+.woodgrove-button:hover,.woodgrove-button:focus{
+    background: #C0DDE3;
+}
+
+.woodgrove-button:active,.woodgrove-button:after{
+    background: #22737E;
+    color: white;
+}
+
+.page-heading{
+    font-family: Corbel;
+    font-size: 25px;
+    color: #41AEBD;
+    margin: 30px;
+    margin-left: auto;
+    margin-top: 50px;
+}
