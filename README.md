@@ -34,6 +34,7 @@ To use the Microsoft Graph Excel ASP.NET donations sample, you need the followin
 
 1. Press F5 to build and debug. Run the solution and sign in with your organizational account. The application launches on your local host and shows the starter page. 
 ![WoodGrove Companion App start page](images/ExcelApp.jpg)
+
      > Note: Copy and paste the start page URL address **http://localhost:21942/home/index** to a different browser if you get the following error during sign in:**AADSTS70001: Application with identifier ad533dcf-ccad-469a-abed-acd1c8cc0d7d was not found in the directory**.
 2. Select the `Get Started` button.
 3. The application displays the donations page. Select the `Add New' link to add a new task. Fill in the form with the donation details.
