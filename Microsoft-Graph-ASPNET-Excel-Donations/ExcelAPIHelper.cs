@@ -19,7 +19,7 @@ namespace Microsoft_Graph_ASPNET_Excel_Donations
 {
     public class ExcelApiHelper
     {
-        private static string restURLBase = "https://graph.microsoft.com/beta/me/drive/items/";
+        private static string restURLBase = "https://graph.microsoft.com/v1.0/me/drive/items/";
         private static string fileId = null;
 
         private static async Task UpdateSummaryTable(string tableName, string field1Value, string field2Value, string worksheetsEndpoint, HttpClient client)
@@ -60,7 +60,7 @@ namespace Microsoft_Graph_ASPNET_Excel_Donations
                     if (name.Contains("WoodGroveBankExpenseTrendsWorkbook.xlsx"))
                     {
                         fileId = (string)file["id"];
-                        restURLBase = "https://graph.microsoft.com/beta/me/drive/items/" + fileId + "/workbook/worksheets('Donations')/";
+                        restURLBase = "https://graph.microsoft.com/v1.0/me/drive/items/" + fileId + "/workbook/worksheets('Donations')/";
 
                     }
                 }         
@@ -154,7 +154,7 @@ namespace Microsoft_Graph_ASPNET_Excel_Donations
                     if (name.Contains("WoodGroveBankExpenseTrendsWorkbook.xlsx"))
                     {
                         fileId = (string)file["id"];
-                        restURLBase = "https://graph.microsoft.com/beta/me/drive/items/" + fileId + "/workbook/worksheets('Donations')/";
+                        restURLBase = "https://graph.microsoft.com/v1.0/me/drive/items/" + fileId + "/workbook/worksheets('Donations')/";
 
                     }
                 }
