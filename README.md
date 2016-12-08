@@ -21,11 +21,11 @@ To use the Microsoft Graph Excel ASP.NET donations sample, you need the followin
 5. Enter a friendly name for the application, select *Web app/API* as the **Application Type**, and then  enter *http://localhost:21942/* for the **Sign-on URL**. 
 6. Click **Create** to create the application, and then choose your application from the list of applications. 
 7. In the **Essentials** pane, find the Application ID and copy it.
-8. Configure Permissions for your application:  
-  a. In the **Settings** pane, choose **Required permissions**. Click **Add** > **Select an API** > **Microsoft Graph**, and then click **Select**.  
-  b. Click **Select Permissions** and choose the **Have full access to all files user can access** delegated permission. Click **Select**, and then click **Done**.
+8. Configure permissions for your application:  
+  a. In the **Settings** pane, choose **Required permissions**. Click **Add**, choose **Select an API** > **Microsoft Graph**, and then click **Select**.  
+  b. Click **Select permissions** and choose the **Have full access to all files user can access** delegated permission. Click **Select**, and then click **Done**.
 9. In the **Settings** pane, choose **Keys**. Enter a description and select a duration for the key. Click **Save**.
-10. **Important**: Copy the key value. You won't be able to access this value again after you leave this pane. You will use this value as your app secret.
+10. **Important**: Copy the key value now. You won't be able to access this value again after you leave this pane. You will use this value as your app secret.
 
 ## Configure the app
 1. Open **Microsoft-Graph-ASPNET-Excel-Donations.sln** file. 
@@ -61,7 +61,7 @@ Questions about Office 365 development in general should be posted to [Stack Ove
 ## Additional resources
 
 * [Microsoft Graph documentation](https://graph.microsoft.io)
-* [Microsoft Graph API References](https://graph.microsoft.io/docs/api-reference/v1.0)
+* [Other Microsoft Graph ASP.NET samples](https://github.com/MicrosoftGraph?utf8=%E2%9C%93&q=aspnet)
 
 
 ## Copyright
