@@ -30,28 +30,6 @@ namespace Microsoft_Graph_ASPNET_Excel_Donations.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<ActionResult> Graph()
-        {
-            string userObjId = System.Security.Claims.ClaimsPrincipal.Current
-              .FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-
-            SessionTokenCache tokenCache = new SessionTokenCache(userObjId, HttpContext);
-
-            string tenantId = System.Security.Claims.ClaimsPrincipal.Current
-                .FindFirst("http://schemas.microsoft.com/identity/claims/tenantid").Value;
-
-            string authority = string.Format(ConfigurationManager.AppSettings["ida:AADInstance"], tenantId, "");
-
-            ViewBag.AccessToken = await SampleAuthProvider.Instance.GetUserAccessTokenAsync();
-            if (null == ViewBag.AccessToken)
-            {
-                return new EmptyResult();
-            }
-
-            return View();
-        }
-
         [HttpPost]
         public async Task<ActionResult> SendGraphRequest(string accessToken, string requestUrl)
         {
