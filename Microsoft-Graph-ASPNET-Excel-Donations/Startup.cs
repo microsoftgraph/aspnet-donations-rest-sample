@@ -1,88 +1,94 @@
-﻿using System;
-using System.Configuration;
-using System.Threading.Tasks;
-using System.Globalization;
-using System.IdentityModel.Tokens;
-using System.Web;
+﻿using System.Web;
 using Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Notifications;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
+using System.Threading.Tasks;
 using Microsoft_Graph_ASPNET_Excel_Donations.TokenStorage;
-using ADAL = Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.IdentityModel.Tokens;
+using System.IdentityModel.Claims;
+using Microsoft.Identity.Client;
 
 [assembly: OwinStartup(typeof(Microsoft_Graph_ASPNET_Excel_Donations.Startup))]
 
 namespace Microsoft_Graph_ASPNET_Excel_Donations
 {
-    public class Startup
+    public partial class Startup
     {
-        public static string appId = ConfigurationManager.AppSettings["ida:AppId"];
-        public static string appSecret = ConfigurationManager.AppSettings["ida:AppSecret"];
-        public static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
 
         public void Configuration(IAppBuilder app)
+        {
+            ConfigureAuth(app);
+        }
+
+        // The appId is used by the application to uniquely identify itself to Azure AD.
+        // The appSecret is the application's password.
+        // The redirectUri is where users are redirected after sign in and consent.
+        // The graphScopes are the Microsoft Graph permission scopes that are used by this sample: User.Read Mail.Send
+        private static string appId = ConfigurationManager.AppSettings["ida:AppId"];
+        private static string appSecret = ConfigurationManager.AppSettings["ida:AppSecret"];
+        private static string redirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
+        private static string graphScopes = ConfigurationManager.AppSettings["ida:GraphScopes"];
+
+        public void ConfigureAuth(IAppBuilder app)
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
             app.UseOpenIdConnectAuthentication(
-              new OpenIdConnectAuthenticationOptions
-              {
-            // The `Authority` represents the auth endpoint - https://login.microsoftonline.com/common/
-            // The 'ResponseType' indicates that we want an authorization code and an ID token 
-            // In a real application you could use issuer validation for additional checks, like making 
-            // sure the user's organization has signed up for your app, for instance.
+                new OpenIdConnectAuthenticationOptions
+                {
 
-            ClientId = appId,
-                  Authority = string.Format(CultureInfo.InvariantCulture, aadInstance, "common", ""),
-                  ResponseType = "code id_token",
-                  PostLogoutRedirectUri = "/",
-                  TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = false,
-                  },
-                  Notifications = new OpenIdConnectAuthenticationNotifications
-                  {
-                      AuthenticationFailed = OnAuthenticationFailed,
-                      AuthorizationCodeReceived = OnAuthorizationCodeReceived
-                  }
-              }
-            );
-        }
+                    // The `Authority` represents the Microsoft v2.0 authentication and authorization service.
+                    // The `Scope` describes the permissions that your app will need. See https://azure.microsoft.com/documentation/articles/active-directory-v2-scopes/                    
+                    ClientId = appId,
+                    Authority = "https://login.microsoftonline.com/common/v2.0",
+                    PostLogoutRedirectUri = redirectUri,
+                    RedirectUri = redirectUri,
+                    Scope = "openid email profile offline_access " + graphScopes,
+                    TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        // In a real application you would use IssuerValidator for additional checks, 
+                        // like making sure the user's organization has signed up for your app.
+                        //     IssuerValidator = (issuer, token, tvp) =>
+                        //     {
+                        //         if (MyCustomTenantValidation(issuer)) 
+                        //             return issuer;
+                        //         else
+                        //             throw new SecurityTokenInvalidIssuerException("Invalid issuer");
+                        //     },
+                    },
+                    Notifications = new OpenIdConnectAuthenticationNotifications
+                    {
+                        AuthorizationCodeReceived = async (context) =>
+                        {
+                            var code = context.Code;
+                            string signedInUserID = context.AuthenticationTicket.Identity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        private Task OnAuthenticationFailed(AuthenticationFailedNotification<OpenIdConnectMessage,
-          OpenIdConnectAuthenticationOptions> notification)
-        {
-            notification.HandleResponse();
-            notification.Response.Redirect("/Error?message=" + notification.Exception.Message);
-            return Task.FromResult(0);
-        }
+                            TokenCache userTokenCache = new SessionTokenCache(signedInUserID,
+                                context.OwinContext.Environment["System.Web.HttpContextBase"] as HttpContextBase).GetMsalCacheInstance();
+                            ConfidentialClientApplication cca = new ConfidentialClientApplication(
+                                appId,
+                                redirectUri,
+                                new ClientCredential(appSecret),
+                                userTokenCache,
+                                null);
+                            string[] scopes = graphScopes.Split(new char[] { ' ' });
 
-        private async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedNotification notification)
-        {
-            // Get the user's object id (used to name the token cache)
-            string userObjId = notification.AuthenticationTicket.Identity
-              .FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-
-            // Create a token cache
-            HttpContextBase httpContext = notification.OwinContext.Get<HttpContextBase>(typeof(HttpContextBase).FullName);
-            SessionTokenCache tokenCache = new SessionTokenCache(userObjId, httpContext);
-
-            // Exchange the auth code for a token
-            ADAL.ClientCredential clientCred = new ADAL.ClientCredential(appId, appSecret);
-
-            // Create the auth context
-            ADAL.AuthenticationContext authContext = new ADAL.AuthenticationContext(
-              string.Format(CultureInfo.InvariantCulture, aadInstance, "common", ""),
-              false, tokenCache);
-
-            ADAL.AuthenticationResult authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(
-              notification.Code, notification.Request.Uri, clientCred, "https://graph.microsoft.com");
+                            AuthenticationResult result = await cca.AcquireTokenByAuthorizationCodeAsync(code, scopes);
+                        },
+                        AuthenticationFailed = (context) =>
+                        {
+                            context.HandleResponse();
+                            context.Response.Redirect("/Error?message=" + context.Exception.Message);
+                            return Task.FromResult(0);
+                        }
+                    }
+                });
         }
     }
 }

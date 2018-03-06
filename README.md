@@ -4,28 +4,36 @@ This sample shows how to read and write into an Excel document stored in your On
 
 ## Prerequisites
 
-To use the Microsoft Graph Excel ASP.NET donations sample, you need the following:
-* Visual Studio 2015 installed and working on your development computer. 
+This sample requires the following:  
 
-     > Note: This sample is written using Visual Studio 2015. If you're using Visual Studio 2013, make sure to change the compiler language version to 5 in the Web.config file:  **compilerOptions="/langversion:5**
-* An Office 365 account. You can sign up for [an Office 365 Developer subscription](https://aka.ms/devprogramsignup) that includes the resources that you need to start building Office 365 apps.
+  * [Visual Studio 2015](https://www.visualstudio.com/en-us/downloads) 
+  * Either a [Microsoft account](https://www.outlook.com) or [work or school account](https://dev.office.com/devprogram)
 
-     > Note: If you already have a subscription, the previous link sends you to a page with the message *Sorry, you can’t add that to your current account*. In that case use an account from your current Office 365 subscription.
+## Register the application
 
-## Register the app
+1. Sign into the [Application Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.
 
-1. Sign in to the [Azure portal](https://portal.azure.com/).
-2. If you have multiple tenants, click your account on the top bar and under the **Directory** list, choose the Active Directory tenant where you wish to register your application.
-3. In the left- hand nav, click **Azure Active Directory**. If it's not showing, click **More Services** > **Azure Active Directory**.
-4. Click **App registrations** and then click **Add**.
-5. Enter a friendly name for the application, select *Web app/API* as the **Application Type**, and then  enter *http://localhost:21942/* for the **Sign-on URL**. 
-6. Click **Create** to create the application, and then choose your application from the list of applications. 
-7. In the **Essentials** pane, find the Application ID and copy it.
-8. Configure permissions for your application:  
-  a. In the **Settings** pane, choose **Required permissions**. Click **Add**, choose **Select an API** > **Microsoft Graph**, and then click **Select**.  
-  b. Click **Select permissions** and choose the **Have full access to all files user can access** delegated permission. Click **Select**, and then click **Done**.
-9. In the **Settings** pane, choose **Keys**. Enter a description and select a duration for the key. Click **Save**.
-10. **Important**: Copy the key value now. You won't be able to access this value again after you leave this pane. You will use this value as your app secret.
+2. Choose **Add an app**.
+
+3. Enter a name for the app, and choose **Create application**. 
+	
+   The registration page displays, listing the properties of your app.
+
+4. Copy the Application Id. This is the unique identifier for your app. 
+
+5. Under **Application Secrets**, choose **Generate New Password**. Copy the password from the **New password generated** dialog.
+
+   You'll use the application ID and password (secret) to configure the sample app in the next section. 
+
+6. Under **Platforms**, choose **Add Platform**.
+
+7. Choose **Web**.
+
+8. Make sure the **Allow Implicit Flow** check box is selected, and enter *http://localhost:21942/* as the Redirect URI. 
+
+   The **Allow Implicit Flow** option enables the hybrid flow. During authentication, this enables the app to receive both sign-in info (the id_token) and artifacts (in this case, an authorization code) that the app can use to obtain an access token.
+
+9. Choose **Save**.
 
 ## Configure the app
 1. Open **Microsoft-Graph-ASPNET-Excel-Donations.sln** file. 
@@ -65,4 +73,4 @@ Questions about Office 365 development in general should be posted to [Stack Ove
 
 
 ## Copyright
-Copyright (c) 2016 Microsoft. All rights reserved.
+Copyright (c) 2018 Microsoft. All rights reserved.

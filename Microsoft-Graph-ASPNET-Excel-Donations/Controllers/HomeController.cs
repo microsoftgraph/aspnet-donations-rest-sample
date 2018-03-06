@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Mvc;
 using Microsoft_Graph_ASPNET_Excel_Donations.TokenStorage;
+using Microsoft_Graph_ASPNET_Excel_Donations.Helpers;
 using System.Configuration;
 using System.Threading.Tasks;
-using Microsoft_Graph_ASPNET_Excel_Donations.Auth;
 
 namespace Microsoft_Graph_ASPNET_Excel_Donations.Controllers
 {
@@ -43,10 +43,7 @@ namespace Microsoft_Graph_ASPNET_Excel_Donations.Controllers
 
             string authority = string.Format(ConfigurationManager.AppSettings["ida:AADInstance"], tenantId, "");
 
-            AuthHelper authHelper = new AuthHelper(authority, ConfigurationManager.AppSettings["ida:AppId"],
-              ConfigurationManager.AppSettings["ida:AppSecret"], tokenCache);
-
-            ViewBag.AccessToken = await authHelper.GetUserAccessToken(Url.Action("Index", "Home", null, Request.Url.Scheme));
+            ViewBag.AccessToken = await SampleAuthProvider.Instance.GetUserAccessTokenAsync();
             if (null == ViewBag.AccessToken)
             {
                 return new EmptyResult();
