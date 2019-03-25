@@ -6,34 +6,49 @@ This sample shows how to read and write into an Excel document stored in your On
 
 This sample requires the following:  
 
-  * [Visual Studio 2015](https://www.visualstudio.com/en-us/downloads) 
+  * [Visual Studio 2017](https://www.visualstudio.com/en-us/downloads) 
   * Either a [Microsoft account](https://www.outlook.com) or [work or school account](https://dev.office.com/devprogram)
 
 ## Register the application
 
-1. Sign into the [Application Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.
+1. Determine your ASP.NET app's URL. In Visual Studio's Solution Explorer, select the **Microsoft-Graph-ASPNET-Excel-Donations** project. In the **Properties** window, find the value of **SSL URL**. Copy this value.
 
-2. Choose **Add an app**.
+    ![Screenshot of the Visual Studio Properties window](readme-images/vs-project-url.PNG)
 
-3. Enter a name for the app, and choose **Create application**. 
-	
-   The registration page displays, listing the properties of your app.
+1. Open a browser and navigate to the [Azure Active Directory admin center](https://aad.portal.azure.com). Login using a **Work or School Account**.
 
-4. Copy the Application Id. This is the unique identifier for your app. 
+1. Select **Azure Active Directory** in the left-hand navigation, then select **App registrations (Preview)** under **Manage**.
 
-5. Under **Application Secrets**, choose **Generate New Password**. Copy the password from the **New password generated** dialog.
+    ![A screenshot of the App registrations ](readme-images/aad-portal-app-registrations.png)
 
-   You'll use the application ID and password (secret) to configure the sample app in the next section. 
+1. Select **New registration**. On the **Register an application** page, set the values as follows.
 
-6. Under **Platforms**, choose **Add Platform**.
+    - Set a preferred **Name** e.g. `Donations App`.
+    - Set **Supported account types** to **Accounts in any organizational directory**.
+    - Under **Redirect URI**, set the first drop-down to `Web` and set the value to the ASP.NET app SSL URL you copied in step 1. For this sample, *http://localhost:21942*
 
-7. Choose **Web**.
+    ![A screenshot of the Register an application page](readme-images/aad-register-an-app.png)
 
-8. Make sure the **Allow Implicit Flow** check box is selected, and enter *http://localhost:21942/* as the Redirect URI. 
+1. Choose **Register**. On the **Donations App** page, copy the value of the **Application (client) ID** and save it, you will need it in the next step.
 
-   The **Allow Implicit Flow** option enables the hybrid flow. During authentication, this enables the app to receive both sign-in info (the id_token) and artifacts (in this case, an authorization code) that the app can use to obtain an access token.
+    ![A screenshot of the application ID of the new app registration](readme-images/aad-application-id.PNG)
 
-9. Choose **Save**.
+1. Select **Authentication** under **Manage**. Locate the **Implicit grant** section and enable **ID tokens**. Choose **Save**.
+
+    ![A screenshot of the Implicit grant section](readme-images/aad-implicit-grant.png)
+
+    The **Allow Implicit Flow** option enables the hybrid flow. During authentication, this enables the app to receive both sign-in info (the id_token) and artifacts (in this case, an authorization code) that the app can use to obtain an access token.
+
+1. Select **Certificates & secrets** under **Manage**. Select the **New client secret** button. Enter a value in **Description** and select one of the options for **Expires** and choose **Add**.
+    
+    ![A screenshot of the Add a client secret dialog](readme-images/aad-new-client-secret.png)
+
+1. Copy the client secret value before you leave this page. You will need it in the next step.
+
+    > [!IMPORTANT]
+    > This client secret is never shown again, so make sure you copy it now.
+
+    ![A screenshot of the newly added client secret](readme-images/aad-copy-client-secret.png)
 
 ## Configure the app
 1. Open **Microsoft-Graph-ASPNET-Excel-Donations.sln** file. 
@@ -73,4 +88,4 @@ Questions about Office 365 development in general should be posted to [Stack Ove
 
 
 ## Copyright
-Copyright (c) 2018 Microsoft. All rights reserved.
+Copyright (c) 2019 Microsoft. All rights reserved.
