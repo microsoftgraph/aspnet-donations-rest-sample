@@ -19,7 +19,7 @@ This sample requires the following:
 
 1. Select **Azure Active Directory** in the left-hand navigation, then select **App registrations** under **Manage**.
 
-    ![A screenshot of the App registrations ](readme-images/aad-portal-app-registrations.png)
+    ![A screenshot of the App registrations ](readme-images/registrations.png)
 
 1. Select **New registration**. On the **Register an application** page, set the values as follows.
 
