@@ -17,7 +17,7 @@ This sample requires the following:
 
 1. Open a browser and navigate to the [Azure Active Directory admin center](https://aad.portal.azure.com). Login using a **Work or School Account**.
 
-1. Select **Azure Active Directory** in the left-hand navigation, then select **App registrations (Preview)** under **Manage**.
+1. Select **Azure Active Directory** in the left-hand navigation, then select **App registrations** under **Manage**.
 
     ![A screenshot of the App registrations ](readme-images/aad-portal-app-registrations.png)
 
