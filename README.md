@@ -1,20 +1,3 @@
----
-page_type: sample 
-products:
-- office-excel
-- office-onedrive
-- ms-graph
-languages:
-- csharp
-extensions:
-  contentType: samples
-  technologies:
-  - Microsoft Graph
-  services:
-  - Excel
-  - OneDrive
-  createdDate: 3/30/2016 5:01:10 PM
----
 # Microsoft Graph Excel ASP.NET donations sample
 
 This sample shows how to read and write into an Excel document stored in your OneDrive for Business account by using the Excel REST APIs.
